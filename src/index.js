@@ -1,9 +1,6 @@
 import readline from "readline";
-import { EOL } from "os";
 import { printConsole } from "./utils/printConsole.js";
-
-const username = "Alex";
-
+import { messages } from "./constants.js";
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -12,24 +9,20 @@ const rl = readline.createInterface({
 
 rl.on("line", (input) => {
   const command = input.trim().toLowerCase();
-  // handleCommand(command);
+  handleCommand(command);
   rl.prompt();
 });
-
-//   rl.on('line', (input) => {
-//     const command = input.trim().toLowerCase();
-//     handleCommand(command);
-//     rl.prompt();
-//   });
-
 rl.on("close", () => {
-  printConsole(
-    `${EOL} Thank you for using File Manager, ${username}, goodbye!`,
-    "blue"
-  );
-  //   console.log(`${EOL} Thank you for using File Manager, ${username}, goodbye!`);
+  printConsole(messages.goodbye, "blue");
+  printConsole(messages.currentDir);
   process.exit(0);
 });
 
-// console.log(`Welcome to the File Manager, ${username}!`);
-printConsole(`Welcome to the File Manager, ${username}!`, "green");
+printConsole(messages.welcome, "green");
+printConsole(messages.currentDir);
+
+function handleCommand(command) {
+  if (command === ".exit") {
+    rl.close();
+  }
+}
