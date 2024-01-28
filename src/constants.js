@@ -2,7 +2,6 @@ import { EOL } from "os";
 import { getUser } from "./utils/getUser.js";
 import { cwd } from "process";
 
-
 export const username = getUser();
 
 export const consoleColors = {
@@ -16,5 +15,6 @@ export const consoleColors = {
 export const messages = {
   welcome: `Welcome to the File Manager, ${username}!`,
   goodbye: `${EOL}Thank you for using File Manager, ${username}!`,
-  currentDir:`You are currently in ${cwd()}`
+  enter: `Enter the commands and wait for the result`,
+  currentDir: ()=>`You are currently in ${cwd()}`,
 };
