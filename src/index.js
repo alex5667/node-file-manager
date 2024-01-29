@@ -4,8 +4,7 @@ import { messages } from "./constants.js";
 import { consoleColors } from "./constants.js";
 import { chdir } from "process";
 import { homedir } from "os";
-import path from "path";
-import { cwd } from "process";
+import { cd } from "./commands/nwd.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -14,8 +13,7 @@ const rl = readline.createInterface({
 });
 
 rl.on("line", (input) => {
-  const command = input.trim().toLowerCase();
-  handleCommand(command);
+  handleCommand(input);
   rl.prompt();
 });
 rl.on("close", () => {
@@ -24,17 +22,19 @@ rl.on("close", () => {
 });
 
 chdir(homedir());
-function handleCommand(command) {
+
+function handleCommand(line) {
+  const [command, ...args] = line.split(" ");
+  console.log("command", command)
+  console.log("args", args)
   if (command === ".exit") {
     rl.close();
+
   }
-  if (command === "up") {
-    const destination = path.resolve(cwd(), "..");
-    chdir(destination);
-    printConsole(messages.currentDir(), consoleColors.green);
+  if (command === "cd") {
+    cd(args);
   }
 }
-
 
 printConsole(messages.welcome, consoleColors.green);
 printConsole(messages.currentDir(), consoleColors.green);

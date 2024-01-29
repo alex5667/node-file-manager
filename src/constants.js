@@ -17,4 +17,6 @@ export const messages = {
   goodbye: `${EOL}Thank you for using File Manager, ${username}!`,
   enter: `Enter the commands and wait for the result`,
   currentDir: ()=>`You are currently in ${cwd()}`,
+  operationFailed: "Operation failed",
+
 };
