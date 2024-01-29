@@ -17,10 +17,26 @@ export const cd = async (pathToDirectory) => {
     if (stats.isFile()) {
       throw new Error(`Can't change current directory to file`);
     }
-
     chdir(newPath);
     printConsole(messages.currentDir(), consoleColors.green);
   } catch {
     printConsole(messages.operationFailed, consoleColors.red);
   }
+};
+
+export const ls = async () => {
+  const files = await fs.readdir(cwd());
+
+  const table = files.map(async (file) => {
+    const filePath = path.join(cwd(), file);
+    const stats = await fs.stat(filePath);
+
+    const type = stats.isDirectory() ? "directory" : "file";
+    return { name: file, type };
+  });
+
+  printConsole("Name\t\tType", consoleColors.green);
+  (await Promise.all(table)).forEach(({ name, type }) => {
+    printConsole(`${name}\t\t${type === "directory" ? "Directory" : "File"}`);
+  });
 };

@@ -5,6 +5,7 @@ import { consoleColors } from "./constants.js";
 import { chdir } from "process";
 import { homedir } from "os";
 import { cd } from "./commands/nwd.js";
+import { ls } from "./commands/nwd.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -25,14 +26,17 @@ chdir(homedir());
 
 function handleCommand(line) {
   const [command, ...args] = line.split(" ");
-  console.log("command", command)
-  console.log("args", args)
+  // console.log("command", command)
+  // console.log("args", args)
   if (command === ".exit") {
     rl.close();
-
   }
   if (command === "cd") {
     cd(args);
+  }
+
+  if (command === "ls") {
+    ls();
   }
 }
 
