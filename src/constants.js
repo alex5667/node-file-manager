@@ -16,7 +16,7 @@ export const messages = {
   welcome: `Welcome to the File Manager, ${username}!`,
   goodbye: `${EOL}Thank you for using File Manager, ${username}!`,
   enter: `Enter the commands and wait for the result`,
-  currentDir: ()=>`You are currently in ${cwd()}`,
+  currentDir: () => `You are currently in ${cwd()}`,
   operationFailed: "Operation failed",
-
+  invalidCommand: "Invalid input",
 };

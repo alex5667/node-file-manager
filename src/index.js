@@ -4,8 +4,9 @@ import { messages } from "./constants.js";
 import { consoleColors } from "./constants.js";
 import { chdir } from "process";
 import { homedir } from "os";
-import { cd } from "./commands/nwd.js";
-import { ls } from "./commands/nwd.js";
+
+import { nwd } from "./commands/nwd.js";
+import { fsOperations } from "./commands/fsOperations.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -13,8 +14,8 @@ const rl = readline.createInterface({
   prompt: "",
 });
 
-rl.on("line", (input) => {
-  handleCommand(input);
+rl.on("line", async (input) => {
+  await handleCommand(input);
   rl.prompt();
 });
 rl.on("close", () => {
@@ -24,19 +25,21 @@ rl.on("close", () => {
 
 chdir(homedir());
 
-function handleCommand(line) {
+async function handleCommand(line) {
   const [command, ...args] = line.split(" ");
-  // console.log("command", command)
-  // console.log("args", args)
   if (command === ".exit") {
     rl.close();
   }
-  if (command === "cd") {
-    cd(args);
-  }
+  const availableCommands = {
+    ...nwd,
+    ...fsOperations,
+  };
 
-  if (command === "ls") {
-    ls();
+  const currentCommand = availableCommands[command];
+  if (currentCommand) {
+    await currentCommand(args);
+  } else {
+    printConsole(messages.invalidCommand, consoleColors.red);
   }
 }
 
