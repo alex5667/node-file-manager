@@ -81,7 +81,6 @@ export const fsOperations = {
       const targetDirectory = params[1];
       const sourceFilePath = path.resolve(cwd(), sourcePath);
       const fileName = path.basename(sourceFilePath);
-
       const targetFilePath = path.resolve(targetDirectory, fileName);
 
       try {
@@ -90,7 +89,6 @@ export const fsOperations = {
           createReadStream(sourceFilePath),
           createWriteStream(targetFilePath)
         );
-
         printConsole(`File copied successfully`, consoleColors.green);
         printConsole(`${messages.currentDir()}`, consoleColors.green);
       } catch (error) {
@@ -107,7 +105,6 @@ export const fsOperations = {
       const targetDirectory = paths[1];
       const sourceFilePath = path.resolve(cwd(), sourcePath);
       const fileName = path.basename(sourceFilePath);
-
       const targetFilePath = path.resolve(targetDirectory, fileName);
 
       try {

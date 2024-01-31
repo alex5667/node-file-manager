@@ -6,7 +6,10 @@ import { chdir } from "process";
 import { homedir } from "os";
 
 import { nwd } from "./commands/nwd.js";
-import { fsOperations } from "./commands/fsOperations.js";
+import { fsOperations } from "./commands/fs.js";
+import { osOperation } from "./commands/os.js";
+import { hashOperation } from "./commands/hash.js";
+import { compressOperations } from "./commands/compress.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -33,6 +36,9 @@ async function handleCommand(line) {
   const availableCommands = {
     ...nwd,
     ...fsOperations,
+    ...osOperation,
+    ...hashOperation,
+    ...compressOperations,
   };
 
   const currentCommand = availableCommands[command];
