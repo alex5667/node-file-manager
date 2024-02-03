@@ -17,7 +17,6 @@ export const fsOperations = {
         await fs.access(fileTReadPath);
 
         const fileStream = createReadStream(fileTReadPath, "utf-8");
-
         fileStream.pipe(process.stdout);
 
         fileStream.on("end", () => {
