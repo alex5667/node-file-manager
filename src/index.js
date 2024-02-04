@@ -14,7 +14,7 @@ import { compressOperations } from "./commands/compress.js";
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  prompt: "",
+  prompt: "> ",
 });
 
 rl.on("line", async (input) => {
@@ -22,7 +22,7 @@ rl.on("line", async (input) => {
   rl.prompt();
 });
 rl.on("close", () => {
-  printConsole(messages.goodbye, consoleColors.blue);
+  printConsole(messages.goodbye);
   process.exit(0);
 });
 
@@ -45,10 +45,10 @@ async function handleCommand(line) {
   if (currentCommand) {
     await currentCommand(args);
   } else {
-    printConsole(messages.invalidCommand, consoleColors.red);
+    printConsole(messages.invalidCommand);
   }
 }
 
-printConsole(messages.welcome, consoleColors.green);
-printConsole(messages.currentDir(), consoleColors.green);
-printConsole(messages.enter, consoleColors.green);
+printConsole(messages.welcome);
+printConsole(messages.currentDir());
+printConsole(messages.enter);

@@ -8,7 +8,7 @@ import { messages, consoleColors } from "../constants.js";
 export const hashOperation = {
   hash: async (params) => {
     if (params.length !== 1) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const filePath = path.resolve(cwd(), params.join(" "));
 
@@ -20,11 +20,10 @@ export const hashOperation = {
 
         fileStream.on("close", () => {
           const hashResult = hash.digest("hex");
-          printConsole(`SHA256 hash ${hashResult}`, consoleColors.green);
+          printConsole([`SHA256 hash ${hashResult}`, consoleColors.green]);
         });
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
