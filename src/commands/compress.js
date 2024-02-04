@@ -13,7 +13,7 @@ import { createBrotliCompress, createBrotliDecompress } from "zlib";
 export const compressOperations = {
   compress: async (params) => {
     if (params.length !== 2) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const filePath = path.resolve(cwd(), params[0]);
       const compressedPath = path.resolve(cwd(), params[1]);
@@ -25,17 +25,15 @@ export const compressOperations = {
           createBrotliCompress(),
           createWriteStream(compressedPath)
         );
-        printConsole(`File compressed`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   decompress: async (params) => {
     if (params.length !== 2) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const filePath = path.resolve(cwd(), params[0]);
       const compressedPath = path.resolve(cwd(), params[1]);
@@ -47,12 +45,10 @@ export const compressOperations = {
           createBrotliDecompress(),
           createWriteStream(compressedPath)
         );
-        printConsole(`File decompressed`, consoleColors.green);
 
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },

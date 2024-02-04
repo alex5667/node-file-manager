@@ -8,12 +8,12 @@ import { printConsole } from "../utils/printConsole.js";
 export const nwd = {
   up: () => {
     chdir(path.resolve(cwd(), ".."));
-    printConsole(messages.currentDir(), consoleColors.green);
+    printConsole(messages.currentDir());
   },
 
   cd: async (pathToDirectory) => {
     if (pathToDirectory.length !== 1) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       try {
         const newPath = path.resolve(cwd(), pathToDirectory.join(" "));
@@ -22,9 +22,9 @@ export const nwd = {
           throw new Error(`Unable to set the current directory to a file.`);
         }
         chdir(newPath);
-        printConsole(messages.currentDir(), consoleColors.green);
+        printConsole(messages.currentDir());
       } catch {
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.operationFailed);
       }
     }
   },
@@ -32,17 +32,16 @@ export const nwd = {
   ls: async () => {
     const files = await fs.readdir(cwd());
 
-    const table = files.map(async (file) => {
-      const filePath = path.join(cwd(), file);
-      const stats = await fs.stat(filePath);
+    const table = await Promise.all(
+      files.map(async (file, index) => {
+        const filePath = path.join(cwd(), file);
+        const stats = await fs.stat(filePath);
 
-      const type = stats.isDirectory() ? "directory" : "file";
-      return { name: file, type };
-    });
+        const type = stats.isDirectory() ? "Directory" : "File";
+        return {  Name: file, Type: type };
+      })
+    );
 
-    printConsole("Name\t\tType", consoleColors.green);
-    (await Promise.all(table)).forEach(({ name, type }) => {
-      printConsole(`${name}\t\t${type === "directory" ? "Directory" : "File"}`);
-    });
+    console.table(table, [ "Name", "Type"]);
   },
 };

@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { printConsole } from "../utils/printConsole.js";
-import { messages, consoleColors } from "../constants.js";
+import { messages } from "../constants.js";
 import { createReadStream, createWriteStream } from "fs";
 import { cwd } from "process";
 import { EOL } from "os";
@@ -10,47 +10,43 @@ import { pipeline } from "stream/promises";
 export const fsOperations = {
   cat: async (fileToPath) => {
     if (fileToPath.length !== 1) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       try {
         const fileTReadPath = path.resolve(cwd(), fileToPath.join(" "));
         await fs.access(fileTReadPath);
 
         const fileStream = createReadStream(fileTReadPath, "utf-8");
-
         fileStream.pipe(process.stdout);
 
         fileStream.on("end", () => {
-          printConsole(`${EOL}${messages.currentDir()}`, consoleColors.green);
+          printConsole(messages.currentDir());
         });
 
         fileStream.on("error", () => {
-          printConsole(messages.operationFailed, consoleColors.red);
+          printConsole(messages.operationFailed);
         });
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   add: async (name) => {
     if (name.length !== 1) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       try {
         const filePath = path.join(cwd(), name.join(" "));
         await fs.writeFile(filePath, "");
-        printConsole(`File created successfully.`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   rn: async (params) => {
     if (params.length !== 2) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const sourcePath = params[0];
       const targetFileName = params[1];
@@ -65,17 +61,15 @@ export const fsOperations = {
       try {
         await fs.access(sourceFilePath);
         await fs.rename(sourceFilePath, targetFilePath);
-        printConsole(`File renamed successfully..`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   cp: async (params) => {
     if (params.length !== 2) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const sourcePath = params[0];
       const targetDirectory = params[1];
@@ -89,17 +83,15 @@ export const fsOperations = {
           createReadStream(sourceFilePath),
           createWriteStream(targetFilePath)
         );
-        printConsole(`File copied successfully`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   mv: async (paths) => {
     if (paths.length !== 2) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const sourcePath = paths[0];
       const targetDirectory = paths[1];
@@ -114,28 +106,24 @@ export const fsOperations = {
           createWriteStream(targetFilePath)
         );
         await fs.unlink(sourceFilePath);
-        printConsole(`File moved successfully`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
   rm: async (fileToPath) => {
     if (fileToPath.length !== 1) {
-      printConsole(messages.invalidCommand, consoleColors.red);
+      printConsole(messages.invalidCommand);
     } else {
       const deletedFilePath = path.resolve(cwd(), fileToPath.join(" "));
 
       try {
         await fs.access(deletedFilePath);
         await fs.unlink(deletedFilePath);
-        printConsole(`File deleted successfully`, consoleColors.green);
-        printConsole(`${messages.currentDir()}`, consoleColors.green);
-      } catch (error) {
-        printConsole(`Error : ${error.message}`, consoleColors.red);
-        printConsole(messages.operationFailed, consoleColors.red);
+        printConsole(messages.currentDir());
+      } catch {
+        printConsole(messages.operationFailed);
       }
     }
   },
